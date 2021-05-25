@@ -50,8 +50,8 @@ public class NetworkUtils {
     //Подгрузка обзоров, создание ЮРЛ
     public static URL buildURLForReviews(int id, String lang) {
         Uri uri = Uri.parse(String.format(BASE_URL_REVIEWS, id)).buildUpon().
-                appendQueryParameter(PARAMS_API_key, VALUE_API_key).
-                appendQueryParameter(PARAMS_LANGUAGE,lang).build();
+                appendQueryParameter(PARAMS_LANGUAGE,lang).
+                appendQueryParameter(PARAMS_API_key, VALUE_API_key).build();
         try {
             return new URL(uri.toString());
         } catch (MalformedURLException e) {
@@ -114,7 +114,7 @@ public class NetworkUtils {
         //СБорка строки ссылки
         Uri uri = Uri.parse(Base_URL).buildUpon().
                 appendQueryParameter(PARAMS_API_key, VALUE_API_key).
-                //appendQueryParameter(PARAMS_LANGUAGE, lang).
+                appendQueryParameter(PARAMS_LANGUAGE, lang).
                 appendQueryParameter(PARAMS_SORT_by, method_of_sort).
                 appendQueryParameter(PARAMS_MIN_VOTE_COUNT, VALUE_MIN_VOTE_COUNT).
                 appendQueryParameter(PARAMS_PAGE, Integer.toString(page)).

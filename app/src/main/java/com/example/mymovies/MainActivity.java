@@ -69,13 +69,13 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         movieAdapter = new MovieAdapter();
         recyclerView.setLayoutManager(new GridLayoutManager(this, getColumnCount()));
         recyclerView.setAdapter(movieAdapter);
-        lang= Locale.getDefault().getLanguage();
+        lang = Locale.getDefault().getLanguage();
 
         LiveData<List<Movie>> moviesFromLiveData = viewModel.getMovies();
         moviesFromLiveData.observe(this, new Observer<List<Movie>>() {
             @Override
             public void onChanged(List<Movie> movies) {
-                if (page==1){
+                if (page == 1) {
                     movieAdapter.setMovies(movies);
                 }
             }
@@ -124,20 +124,20 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         });
     }
 
-//Метод расчитывает сколько делать колонок с фильмами
-    private int getColumnCount(){
-        DisplayMetrics displayMetrics=new DisplayMetrics();
+    //Метод расчитывает сколько делать колонок с фильмами
+    private int getColumnCount() {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         int width = (int) (displayMetrics.widthPixels / displayMetrics.density);
         //тернарная операция, если да - возвращаем деление, если нет - 2
-        return width/185>2 ? width/185: 2;
+        return width / 185 > 2 ? width / 185 : 2;
     }
 
     private void downLoadData(int methodOfSort, int page) {
-        URL url = NetworkUtils.buildURL(methodOfSort, page,lang);
-        Log.i("url",url.toString());
+        URL url = NetworkUtils.buildURL(methodOfSort, page, lang);
+        Log.i("url1", url.toString());
         Bundle bundle = new Bundle();
-        bundle.putString("urlsa", url.toString());
+        bundle.putString("url", url.toString());
         loaderManager.restartLoader(LOADER_ID, bundle, this);
     }
 
@@ -176,8 +176,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         jsonLoader.setOnStartLoadingListner(new NetworkUtils.JSONLoader.OnStartLoadingListner() {
             @Override
             public void onStartLoading() {
-                isLoading = true;
                 progressBarLoading.setVisibility(View.VISIBLE);
+                isLoading = true;
             }
         });
         return jsonLoader;
@@ -187,9 +187,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public void onLoadFinished(@NonNull Loader<JSONObject> loader, JSONObject data) {
         ArrayList<Movie> movies = JSOButils.getMoviesFromJson(data);
         if (movies != null && !movies.isEmpty()) {
-            if (page==1){
-            viewModel.deleteAllMovies();
-            movieAdapter.ClearMovies();
+            if (page == 1) {
+                viewModel.deleteAllMovies();
+                movieAdapter.ClearMovies();
             }
             for (Movie movie : movies) {
                 viewModel.insertMovie(movie);
@@ -197,10 +197,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             //Здесь завершение загрузки
             movieAdapter.AddMovies(movies);
             page++;
-            progressBarLoading.setVisibility(View.INVISIBLE);
-            isLoading = false;
+
 
         }
+
+        isLoading = false;
+        progressBarLoading.setVisibility(View.INVISIBLE);
         loaderManager.destroyLoader(LOADER_ID);
     }
 

@@ -1,5 +1,7 @@
 package com.example.mymovies.utils;
 
+import android.util.Log;
+
 import com.example.mymovies.data.Movie;
 import com.example.mymovies.data.Review;
 import com.example.mymovies.data.Trailer;
@@ -58,6 +60,7 @@ public class JSOButils {
                 String backDrop = objectMovie.getString(KEY_BACKDROP);
                 double voteAverage = objectMovie.getDouble(KEY_VOTEAVERAGE);
                 String releaseDate = objectMovie.getString(KEY_RELEASEDATE);
+                Log.i("orig",orginalTitle);
                 Movie movie = new Movie(id, voteCount, title, orginalTitle, overview, posterPath,BigPosterPath, backDrop, voteAverage, releaseDate);
                 result.add(movie);
             }
@@ -93,9 +96,9 @@ public static ArrayList<Review> getReviewsFromJson(JSONObject jsonObject){
         try {
             JSONArray jsonArray=jsonObject.getJSONArray(KEY_RESULTS);
             for (int i=0;i<jsonArray.length();i++){
-                JSONObject jsonObjectReview=jsonArray.getJSONObject(i);
-                String name=jsonObjectReview.getString(KEY_VIDEO_NAME);
-                String key = BASE_YOU_TUBE_URL+jsonObjectReview.getString(KEY_VIDEO_KEY);
+                JSONObject jsonObjectTrailer=jsonArray.getJSONObject(i);
+                String name=jsonObjectTrailer.getString(KEY_VIDEO_NAME);
+                String key = BASE_YOU_TUBE_URL+jsonObjectTrailer.getString(KEY_VIDEO_KEY);
                 result.add(new Trailer(name,key));
             }
         } catch (JSONException e) {
