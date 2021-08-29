@@ -8,4 +8,6 @@
     <string name="Item_favorite">Избранное</string>
     <string name="Item_main">Главная</string>
     <string name="playbutton">PlayButton</string>
+    <string name="Detail_BIg_poster">Большой постер фильма</string>
+    <string name="Add_too_favorites">Добавить в избранное</string>
 </resources>
